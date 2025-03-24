@@ -33,7 +33,7 @@ const ProductsSections = () => {
           <div key={key} className="  w-96 p-7">
             <Card
               img={"http://localhost:1337"+e?.banner?.url}
-              title={e?.title || ""}
+              title={e?.title}
               contant={e?.content}
               price={e?.price}
               id={e?.id} />

@@ -8,6 +8,7 @@ import {
   SignedIn,
   SignedOut,
   UserButton,
+  useUser
 } from '@clerk/nextjs'
 const inter = Lato({ subsets: ["latin"], weight: ["400"] });
 
@@ -17,12 +18,14 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-  return (
+   return (
+    <ClerkProvider className="bg-red">
     <html lang="en">
       <body className={inter.className}>
       { <Header />}
         {children}
       </body>
       </html>
+      </ClerkProvider>
   );
 }

@@ -2,20 +2,17 @@
 import Image from "next/image"
 import { useState } from "react"
 import {
-  SignInButton,
-  SignUpButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
+    UserButton,
+  useUser   
 } from '@clerk/nextjs'
 const Header = () => {
+    const { user } = useUser()
     const [focus, setFocus] = useState(true)
     function onFocusButton(e) { setFocus(e.target.id) };
     
     const classFocus = " bg-Primary-500 text-white "
     return (
-
-        <header className="bg-white">
+        user && ( <header className="bg-white">
            
             <div className="mx-auto ">
                 <div className="flex items-center justify-between py-5 px-5 md:px-10 lg:px-24 xl:px-48 shadow-sm ">
@@ -42,14 +39,15 @@ const Header = () => {
                     </div>
   
                     <div className="flex items-center gap-4">
+                       
                         <div className="sm:flex sm:gap-4">
-                            <a
+                        {!user ?                              <a
                                 className="rounded-md hover:bg-Primary-500 hover:text-white transition-colors duration-100 font-bold px-5 py-2.5 text-sm  text-Primary border-2 border-Primary"
                                 href="#"
                             >
                                 Login
-                            </a>
-  
+                            </a>: <UserButton afterSignOutUrl="/"/>}
+
                             <div className="hidden sm:flex ">
                                 <Image src={"/cart.svg"} width={23} height={25} alt="cart"/>
                             </div>
@@ -74,7 +72,7 @@ const Header = () => {
                     </div>
                 </div>
             </div>
-        </header>
+        </header>)       
     );
 };
 
