@@ -20,8 +20,9 @@
     "next": "^14.2.26",
     "react": "^18",
     "react-dom": "^18",
+    "react-email": "^3.0.7",
+    "resend": "^4.2.0",
     "stripe": "13.2.0"
-
   },
   "devDependencies": {
     "@types/node": "22.13.11",

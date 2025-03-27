@@ -1,6 +1,6 @@
 "use client"
 import Image from "next/image"
-import { useContext, useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import {
     UserButton,
   useUser   
@@ -8,17 +8,19 @@ import {
 import { CartContext } from "app/_context/CartContent";
 import { getUserCartItems } from "app/_utils/cartApi";
 import Cart from "./Cart";
- console.log("i am created")
 const Header = () => {
     const { cart , setCart} = useContext(CartContext)
     const { user } = useUser()
     const [focus, setFocus] = useState(true)
-  const [showCart , setShowCart] = useState(false)
-  function onFocusButton(e) { setFocus(e.target.id) };
+    const [showCart, setShowCart] = useState(false)
+    
+    function onFocusButton(e) { setFocus(e.target.id) };
+
   
     useEffect(() => {
+
         user && getUserCartItems(user.primaryEmailAddress.emailAddress).then(res => res.data.data.forEach(e => {
-            setCart(prev =>
+            setCart(prev => 
                 [
                     ...prev,
                     {
@@ -30,7 +32,6 @@ const Header = () => {
         }))
 
     }, [user])
-    
     const classFocus = " bg-Primary-500 text-white "
     return (
         user && ( <header className="bg-white">
@@ -100,4 +101,4 @@ const Header = () => {
     );
 };
 
-export default Header
+export default ( Header)

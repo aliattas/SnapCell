@@ -1,3 +1,35 @@
+
+# 🛒 E-Commerce Web Application
+
+A modern, full-stack e-commerce website built with **Next.js**, **Tailwind CSS**, and **React**, powered by **Strapi** as a headless CMS. It integrates **Stripe** for secure payments and **Resend** with **React Email** for transactional emails.
+
+## 📦 Tech Stack
+
+| Tech          | Purpose                                              |
+|---------------|------------------------------------------------------|
+| Next.js       | Full-stack React framework for SSR, routing, API    |
+| React         | Frontend UI components                              |
+| Tailwind CSS  | Utility-first styling framework                     |
+| Axios         | HTTP client to communicate with Strapi and APIs     |
+| Strapi        | Headless CMS to manage products, categories, etc.   |
+| Stripe        | Payment processing                                  |
+| React Email   | Design transactional emails with components         |
+| Resend        | Email delivery provider for React Email             |
+
+---
+
+## ✨ Features
+
+- 🚀 Fully responsive design
+- 🔍 Product listing, filtering & details pages
+- 🛒 Shopping cart and checkout flow
+- 💳 Stripe integration for secure payments
+- 🧑‍💼 Admin panel (Strapi) for content and product management
+- 📬 Transactional emails on order confirmation (Resend + React Email)
+
+
+---
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
@@ -34,3 +66,4 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+"# SnapCell-" 

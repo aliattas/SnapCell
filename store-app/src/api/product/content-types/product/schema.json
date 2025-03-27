@@ -32,6 +32,12 @@
       ],
       "type": "media",
       "multiple": false
+    },
+    "orders": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::order.order",
+      "mappedBy": "products"
     }
   }
 }

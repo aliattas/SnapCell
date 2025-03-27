@@ -1,54 +1,11 @@
-// import { PaymentElement } from '@stripe/react-stripe-js';
-// import {useStripe, useElements, PaymentElement} from '@stripe/react-stripe-js';
-
-
-// const CheckoutForm = () => {
-//   const stripe = useStripe();
-//   const elements = useElements();
-
-//   const handleSubmit = async (event) => {
-//     // We don't want to let default form submission happen here,
-//     // which would refresh the page.
-//     event.preventDefault();
-
-//     if (!stripe || !elements) {
-//       // Stripe.js hasn't yet loaded.
-//       // Make sure to disable form submission until Stripe.js has loaded.
-//       return;
-//     }
-
-//     const result = await stripe.confirmPayment({
-//       //`Elements` instance that was used to create the Payment Element
-//       elements,
-//       confirmParams: {
-//         return_url: "https://example.com/order/123/complete",
-//       },
-//     });
-
-//     if (result.error) {
-//       // Show error to your customer (for example, payment details incomplete)
-//       console.log(result.error.message);
-//     } else {
-//       // Your customer will be redirected to your `return_url`. For some payment
-//       // methods like iDEAL, your customer will be redirected to an intermediate
-//       // site first to authorize the payment, then redirected to the `return_url`.
-//     }
-//   };
-//   return (
-//     <form>
-//       <div className='mx-32 md:mx-[320px] mt-12'>
-//       <PaymentElement />
-//         <button className='bg-Primary-400 text-white p-2 rounded-md my-5 w-full'>Submit</button>
-//         </div>
-//     </form>
-//   );
-// };
-
-// export default CheckoutForm;
+import { createOrder } from 'app/_utils/orderApi';
 import { useStripe, useElements, PaymentElement } from '@stripe/react-stripe-js';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useUser } from '@clerk/nextjs';
 import { CartContext } from 'app/_context/CartContent';
+import { deleteUserCartItem } from 'app/_utils/cartApi';
+import { getUserCartItemsID } from 'app/_utils/cartApi';
+
 
 const CheckoutForm = ({ amount }) => {
 	const { cart, setCart } = useContext(CartContext)
@@ -57,6 +14,13 @@ const CheckoutForm = ({ amount }) => {
 	const elements = useElements();
 	const [loading, setLoading] = useState(false);
 	const [errormessage, setErrorMessage] = useState()
+	const [cartID, setCartsID] = useState({})
+
+
+	useEffect(() => { 
+		getUserCartItemsID().then(res => setCartsID(res.data.data))
+	}, [])
+
 	const handleSubmit = async (event) => {
 		// We don't want to let default form submission happen here,
 		// which would refresh the page.
@@ -67,12 +31,14 @@ const CheckoutForm = ({ amount }) => {
 			// Make sure to disable form submission until Stripe.js has loaded.
 			return;
 		}
+
 		const handleError = (error) => {
 			setLoading(false)
 			setErrorMessage(error.message)
 		}
+
 		// Create New Order
-		createOrder();
+		createOrders();
 		// Send an Email
 		sendEmail();
 		// Trigger form validation and wallet collection
@@ -81,6 +47,7 @@ const CheckoutForm = ({ amount }) => {
 			handleError(submitError);
 			return;
 		}
+
 		const res = await fetch('api/create-intent', {
 			method: 'POST',
 			body: JSON.stringify({
@@ -107,10 +74,10 @@ const CheckoutForm = ({ amount }) => {
 			// site first to authorize the payment, then redirected to the `return_url`.
 		}
 	};
-	const createOrder = () => {
-		let productIds = [];
+	const createOrders = () => {
+		const productIds = [];
 		cart.forEach(el => {
-			productIds.push(el?.product?.id)
+			productIds.push(el?.product?.documentId)
 		})
 		const data = {
 			data: {
@@ -120,6 +87,15 @@ const CheckoutForm = ({ amount }) => {
 				products: productIds
 			}
 		}
+
+		createOrder(data).then(res => { 
+			if (res) {
+				// clear the all the cart in the database
+				cartID.forEach(el => {
+		        deleteUserCartItem(el?.documentId)					
+				})
+			}
+		})
 		
 	}
 	const sendEmail = async () => {

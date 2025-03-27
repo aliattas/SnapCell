@@ -136,7 +136,6 @@ const page = () => {
                     />
                   </svg>
   
-                  <p className="text-xs whitespace-nowrap">2 Discounts Applied</p>
                 </span>
               </div>
   

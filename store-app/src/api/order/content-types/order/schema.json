@@ -1,0 +1,29 @@
+{
+  "kind": "collectionType",
+  "collectionName": "orders",
+  "info": {
+    "singularName": "order",
+    "pluralName": "orders",
+    "displayName": "order"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "username": {
+      "type": "string"
+    },
+    "amount": {
+      "type": "decimal"
+    },
+    "products": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::product.product",
+      "inversedBy": "orders"
+    },
+    "email": {
+      "type": "email"
+    }
+  }
+}
