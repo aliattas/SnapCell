@@ -1,0 +1,17 @@
+{
+  "kind": "collectionType",
+  "collectionName": "testnames",
+  "info": {
+    "singularName": "testname",
+    "pluralName": "testnames",
+    "displayName": "testname"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "love": {
+      "type": "string"
+    }
+  }
+}

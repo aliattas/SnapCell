@@ -35,15 +35,15 @@ const Page = ({ params }) => {
   if (error) return <div>{error}</div>
   if (data === undefined) return <div>Not Found  </div>
   if (data === null) return <div className="loader m-auto mt-[12rem]"></div>
-  console.log(data.banner.url)
   return (
     <>
       <ProductTitle
-        img={"http://localhost:1337"+data.banner.url}
+        img={`http://localhost:1337 ${data.banner.url}`}
         title={data?.title}
         type={data.type}
         text={data?.content}
         price={data?.price}
+        data_id={data?.id}
       />
       <div className="font-bold text-gray-400 px-[5rem]">
         <h4>Similar Products </h4>

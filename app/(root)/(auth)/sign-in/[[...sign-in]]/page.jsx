@@ -2,8 +2,7 @@
 import { SignIn, useUser } from '@clerk/nextjs'
 
 export default function Page() {
-  const { user } = useUser()
-  console.log(user)
+ 
 
   return (
     <section className="bg-white">

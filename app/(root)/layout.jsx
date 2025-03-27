@@ -1,31 +1,15 @@
 import { Lato } from "next/font/google";
 import "./globals.css";
-import Header from "../_components/Header";
-import {
-  ClerkProvider,
-  SignInButton,
-  SignUpButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-  useUser
-} from '@clerk/nextjs'
+import Providers from "./providers";  // Import the new Providers component
+
 const inter = Lato({ subsets: ["latin"], weight: ["400"] });
 
-export const metadata = {
-  title: "SparkCart",
-  description: "the best and the coolest store have been made ever",
-};
-
 export default function RootLayout({ children }) {
-   return (
-    <ClerkProvider className="bg-red">
+  return (
     <html lang="en">
       <body className={inter.className}>
-      { <Header />}
-        {children}
+        <Providers>{children}</Providers>
       </body>
-      </html>
-      </ClerkProvider>
+    </html>
   );
 }

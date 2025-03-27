@@ -1,8 +1,9 @@
 import { HeartAdd } from "iconsax-react"
+import AddToCartButtons from "./AddToCartButtons"
 import React from "react"
 const Card =({ img, title, contant, price , id }) => {
 return(
-    <div className='flex justify-center items-center' >
+    <div className='flex justify-center items-center ' >
     <a href={`/product-details/${id}`} className="group relative  overflow-hidden flex items-center justify-center flex-col  ">
         <button
           className="absolute end-4 top-4 z-10 rounded-full bg-white p-1.5 text-gray-900 transition hover:text-gray-900/75"
@@ -30,20 +31,7 @@ return(
           { contant}
           </p>
   
-          <form className="mt-4 flex gap-4 ">
-            <button
-              className="block w-full rounded-sm bg-gray-100 px-4 py-3 text-sm font-medium text-gray-900 transition hover:scale-105"
-            >
-              Add to Cart
-            </button>
-  
-            <button
-              type="button"
-              className="block w-full rounded-sm bg-gray-900 px-4 py-3 text-sm font-medium text-white transition hover:scale-105"
-            >
-              Buy Now
-            </button>
-          </form>
+         <AddToCartButtons /> 
         </div>
       </a>
       </div>

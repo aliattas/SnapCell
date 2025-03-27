@@ -1,14 +1,35 @@
 "use client"
 import Image from "next/image"
-import { useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import {
     UserButton,
   useUser   
 } from '@clerk/nextjs'
+import { CartContext } from "app/_context/CartContent";
+import { getUserCartItems } from "app/_utils/cartApi";
+import Cart from "./Cart";
+ console.log("i am created")
 const Header = () => {
+    const { cart , setCart} = useContext(CartContext)
     const { user } = useUser()
     const [focus, setFocus] = useState(true)
-    function onFocusButton(e) { setFocus(e.target.id) };
+  const [showCart , setShowCart] = useState(false)
+  function onFocusButton(e) { setFocus(e.target.id) };
+  
+    useEffect(() => {
+        user && getUserCartItems(user.primaryEmailAddress.emailAddress).then(res => res.data.data.forEach(e => {
+            setCart(prev =>
+                [
+                    ...prev,
+                    {
+                        id: e.id,
+                        product: e.products[0]
+                    }
+                ]
+            )
+        }))
+
+    }, [user])
     
     const classFocus = " bg-Primary-500 text-white "
     return (
@@ -48,8 +69,11 @@ const Header = () => {
                                 Login
                             </a>: <UserButton afterSignOutUrl="/"/>}
 
-                            <div className="hidden sm:flex ">
-                                <Image src={"/cart.svg"} width={23} height={25} alt="cart"/>
+                            <div className="hidden sm:flex cursor-pointer" onClick={() => setShowCart(e => !e) }>
+                  <Image src={"/cart.svg"} width={23} height={25} alt="cart" />
+                  {showCart && <Cart />}
+
+                                ({ cart?.length})
                             </div>
                         </div>
   
