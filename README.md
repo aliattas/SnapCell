@@ -21,7 +21,7 @@ A modern, full-stack e-commerce website built with **Next.js**, **Tailwind CSS**
 ## ✨ Features
 
 - 🚀 Fully responsive design
-- 🔍 Product listing, filtering & details pages
+- 🔍 details pages
 - 🛒 Shopping cart and checkout flow
 - 💳 Stripe integration for secure payments
 - 🧑‍💼 Admin panel (Strapi) for content and product management
