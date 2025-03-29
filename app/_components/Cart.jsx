@@ -14,7 +14,6 @@ const Cart = () => {
       <div className="mt-4 space-y-6">
         <ul className="space-y-4">
           {cart.map((e , k) => {
-            console.log("something",e.product)
             return (
               <li className="flex items-center gap-4" key={k}>
                 <img

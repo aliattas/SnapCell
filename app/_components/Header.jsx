@@ -1,6 +1,6 @@
 "use client"
 import Image from "next/image"
-import React, { useContext, useEffect, useState } from "react"
+import React, { useContext, useEffect, useState  } from "react"
 import {
     UserButton,
   useUser   
@@ -13,28 +13,36 @@ const Header = () => {
     const { user } = useUser()
     const [focus, setFocus] = useState(true)
     const [showCart, setShowCart] = useState(false)
-    
     function onFocusButton(e) { setFocus(e.target.id) };
+
+
 
   
     useEffect(() => {
+        let isMounted = true;       
+        if (user ) {
 
-        user && getUserCartItems(user.primaryEmailAddress.emailAddress).then(res => res.data.data.forEach(e => {
-            setCart(prev => 
-                [
-                    ...prev,
-                    {
-                        id: e.id,
-                        product: e.products[0]
-                    }
-                ]
-            )
-        }))
-
-    }, [user])
+          getUserCartItems(user.primaryEmailAddress.emailAddress)
+            .then(res => {
+                if (isMounted) {
+                setCart(res.data.data.map(e => ({
+                  id: e.id,
+                  product: e.products[0]
+                })));
+              }
+            })
+            .catch(error => {
+              console.error("Failed to fetch cart items:", error);
+            });
+        }
+      
+        return () => {
+          isMounted = false;
+        };
+    }, [user]);
     const classFocus = " bg-Primary-500 text-white "
     return (
-        user && ( <header className="bg-white">
+       user &&  ( <header className="bg-white">
            
             <div className="mx-auto ">
                 <div className="flex items-center justify-between py-5 px-5 md:px-10 lg:px-24 xl:px-48 shadow-sm ">
@@ -48,7 +56,7 @@ const Header = () => {
 
                                 <li>
                                     <a onClick={e => onFocusButton(e)} id={"0"} className={`transition  hover:shadow-md font-bold  px-6 py-4 rounded-md 
-                                         ${focus == "0" ? classFocus : "text-Primary "}`} href="#"> Home </a>
+                                         ${focus == "0" ? classFocus : "text-Primary "}`} href="/home"> Home </a>
                                 </li>
   
                                 <li>
@@ -63,12 +71,14 @@ const Header = () => {
                     <div className="flex items-center gap-4">
                        
                         <div className="sm:flex sm:gap-4">
-                        {!user ?                              <a
+                            {!user ?
+                                <a
                                 className="rounded-md hover:bg-Primary-500 hover:text-white transition-colors duration-100 font-bold px-5 py-2.5 text-sm  text-Primary border-2 border-Primary"
                                 href="#"
-                            >
+                                >
                                 Login
-                            </a>: <UserButton afterSignOutUrl="/"/>}
+                                </a> : <UserButton afterSignOutUrl="/" />
+                            }
 
                             <div className="hidden sm:flex cursor-pointer" onClick={() => setShowCart(e => !e) }>
                   <Image src={"/cart.svg"} width={23} height={25} alt="cart" />
@@ -101,4 +111,4 @@ const Header = () => {
     );
 };
 
-export default ( Header)
+export default React.memo( Header)
